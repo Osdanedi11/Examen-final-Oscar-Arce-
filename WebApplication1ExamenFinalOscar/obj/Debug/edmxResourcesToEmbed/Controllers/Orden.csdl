@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ExamenFinalOscarModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Asignacion">
+    <Key>
+      <PropertyRef Name="Carnet" />
+      <PropertyRef Name="CodigoProyecto" />
+    </Key>
+    <Property Name="Carnet" Type="Int32" Nullable="false" />
+    <Property Name="CodigoProyecto" Type="Int32" Nullable="false" />
+    <Property Name="FechaAsignacion" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Empleado" Relationship="Self.FK__Asignacio__Carne__5535A963" FromRole="Asignacion" ToRole="Empleado" />
+    <NavigationProperty Name="Proyecto" Relationship="Self.FK__Asignacio__Codig__5629CD9C" FromRole="Asignacion" ToRole="Proyecto" />
+  </EntityType>
+  <EntityType Name="CategoriaLaboral">
+    <Key>
+      <PropertyRef Name="Categoria" />
+    </Key>
+    <Property Name="Categoria" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Empleado" Relationship="Self.FK__Empleado__Catego__4F7CD00D" FromRole="CategoriaLaboral" ToRole="Empleado" />
+  </EntityType>
+  <EntityType Name="Empleado">
+    <Key>
+      <PropertyRef Name="Carnet" />
+    </Key>
+    <Property Name="Carnet" Type="Int32" Nullable="false" />
+    <Property Name="NombreCompleto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Telefono" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CorreoElectronico" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Salario" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="Categoria" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Asignacion" Relationship="Self.FK__Asignacio__Carne__5535A963" FromRole="Empleado" ToRole="Asignacion" />
+    <NavigationProperty Name="CategoriaLaboral" Relationship="Self.FK__Empleado__Catego__4F7CD00D" FromRole="Empleado" ToRole="CategoriaLaboral" />
+  </EntityType>
+  <EntityType Name="Proyecto">
+    <Key>
+      <PropertyRef Name="CodigoProyecto" />
+    </Key>
+    <Property Name="CodigoProyecto" Type="Int32" Nullable="false" />
+    <Property Name="NombreProyecto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaInicio" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="FechaFin" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Asignacion" Relationship="Self.FK__Asignacio__Codig__5629CD9C" FromRole="Proyecto" ToRole="Asignacion" />
+  </EntityType>
+  <Association Name="FK__Asignacio__Carne__5535A963">
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+    <End Role="Asignacion" Type="Self.Asignacion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="Carnet" />
+      </Principal>
+      <Dependent Role="Asignacion">
+        <PropertyRef Name="Carnet" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Asignacio__Codig__5629CD9C">
+    <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+    <End Role="Asignacion" Type="Self.Asignacion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proyecto">
+        <PropertyRef Name="CodigoProyecto" />
+      </Principal>
+      <Dependent Role="Asignacion">
+        <PropertyRef Name="CodigoProyecto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Empleado__Catego__4F7CD00D">
+    <End Role="CategoriaLaboral" Type="Self.CategoriaLaboral" Multiplicity="1" />
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CategoriaLaboral">
+        <PropertyRef Name="Categoria" />
+      </Principal>
+      <Dependent Role="Empleado">
+        <PropertyRef Name="Categoria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ExamenFinalOscarEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Asignacion" EntityType="Self.Asignacion" />
+    <EntitySet Name="CategoriaLaboral" EntityType="Self.CategoriaLaboral" />
+    <EntitySet Name="Empleado" EntityType="Self.Empleado" />
+    <EntitySet Name="Proyecto" EntityType="Self.Proyecto" />
+    <AssociationSet Name="FK__Asignacio__Carne__5535A963" Association="Self.FK__Asignacio__Carne__5535A963">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="Asignacion" EntitySet="Asignacion" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Asignacio__Codig__5629CD9C" Association="Self.FK__Asignacio__Codig__5629CD9C">
+      <End Role="Proyecto" EntitySet="Proyecto" />
+      <End Role="Asignacion" EntitySet="Asignacion" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Empleado__Catego__4F7CD00D" Association="Self.FK__Empleado__Catego__4F7CD00D">
+      <End Role="CategoriaLaboral" EntitySet="CategoriaLaboral" />
+      <End Role="Empleado" EntitySet="Empleado" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

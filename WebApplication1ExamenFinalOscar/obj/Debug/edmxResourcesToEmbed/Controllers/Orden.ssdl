@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ExamenFinalOscarModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Asignacion">
+    <Key>
+      <PropertyRef Name="Carnet" />
+      <PropertyRef Name="CodigoProyecto" />
+    </Key>
+    <Property Name="Carnet" Type="int" Nullable="false" />
+    <Property Name="CodigoProyecto" Type="int" Nullable="false" />
+    <Property Name="FechaAsignacion" Type="date" />
+  </EntityType>
+  <EntityType Name="CategoriaLaboral">
+    <Key>
+      <PropertyRef Name="Categoria" />
+    </Key>
+    <Property Name="Categoria" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Descripcion" Type="text" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Empleado">
+    <Key>
+      <PropertyRef Name="Carnet" />
+    </Key>
+    <Property Name="Carnet" Type="int" Nullable="false" />
+    <Property Name="NombreCompleto" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="FechaNacimiento" Type="date" Nullable="false" />
+    <Property Name="Direccion" Type="varchar" MaxLength="255" />
+    <Property Name="Telefono" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="CorreoElectronico" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Salario" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="Categoria" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Proyecto">
+    <Key>
+      <PropertyRef Name="CodigoProyecto" />
+    </Key>
+    <Property Name="CodigoProyecto" Type="int" Nullable="false" />
+    <Property Name="NombreProyecto" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="FechaInicio" Type="date" Nullable="false" />
+    <Property Name="FechaFin" Type="date" />
+  </EntityType>
+  <Association Name="FK__Asignacio__Carne__5535A963">
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+    <End Role="Asignacion" Type="Self.Asignacion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="Carnet" />
+      </Principal>
+      <Dependent Role="Asignacion">
+        <PropertyRef Name="Carnet" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Asignacio__Codig__5629CD9C">
+    <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+    <End Role="Asignacion" Type="Self.Asignacion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proyecto">
+        <PropertyRef Name="CodigoProyecto" />
+      </Principal>
+      <Dependent Role="Asignacion">
+        <PropertyRef Name="CodigoProyecto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Empleado__Catego__4F7CD00D">
+    <End Role="CategoriaLaboral" Type="Self.CategoriaLaboral" Multiplicity="1" />
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CategoriaLaboral">
+        <PropertyRef Name="Categoria" />
+      </Principal>
+      <Dependent Role="Empleado">
+        <PropertyRef Name="Categoria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ExamenFinalOscarModelStoreContainer">
+    <EntitySet Name="Asignacion" EntityType="Self.Asignacion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CategoriaLaboral" EntityType="Self.CategoriaLaboral" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Asignacio__Carne__5535A963" Association="Self.FK__Asignacio__Carne__5535A963">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="Asignacion" EntitySet="Asignacion" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Asignacio__Codig__5629CD9C" Association="Self.FK__Asignacio__Codig__5629CD9C">
+      <End Role="Proyecto" EntitySet="Proyecto" />
+      <End Role="Asignacion" EntitySet="Asignacion" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Empleado__Catego__4F7CD00D" Association="Self.FK__Empleado__Catego__4F7CD00D">
+      <End Role="CategoriaLaboral" EntitySet="CategoriaLaboral" />
+      <End Role="Empleado" EntitySet="Empleado" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
